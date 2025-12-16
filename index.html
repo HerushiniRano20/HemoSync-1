@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HemoSync - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="login-header">
+            <div class="logo-icon">🩸</div>
+            <h1>HemoSync</h1>
+            <p>Save lives, spreading smiles.</p>
+        </div>
+
+        <div class="login-form-container">
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="e.g. allysya@student.mmu.edu.my" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+
+                <p id="errorMessage" class="error-msg"></p>
+
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+
+            <div class="footer-links">
+                <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+                    <a href="#" class="forgot-pass">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

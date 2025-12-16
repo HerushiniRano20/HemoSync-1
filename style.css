@@ -1,0 +1,146 @@
+/* Reset basic styles for consistency */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container to look like a mobile app screen */
+.app-container {
+    background-color: white;
+    width: 100%;
+    max-width: 400px; /* Mobile width constraint */
+    padding: 40px 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* Header Styling */
+.login-header {
+    margin-bottom: 40px;
+}
+
+.logo-icon {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.login-header h1 {
+    color: #D32F2F; /* Blood Red color from images */
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.login-header p {
+    color: #888;
+    font-size: 14px;
+}
+
+/* Form Styling */
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px; /* Soft rounded corners like the reference */
+    font-size: 14px;
+    background-color: #FAFAFA;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #D32F2F;
+}
+
+/* Button Styling */
+.btn-login {
+    width: 100%;
+    padding: 15px;
+    background-color: #D32F2F; /* Primary Brand Color */
+    color: white;
+    border: none;
+    border-radius: 30px; /* Pill shape button */
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.btn-login:hover {
+    background-color: #b71c1c;
+}
+
+/* Error Message Styling */
+.error-msg {
+    color: red;
+    font-size: 12px;
+    min-height: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Footer Links */
+.footer-links {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #666;
+}
+
+.footer-links a {
+    color: #D32F2F;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.forgot-pass {
+    display: block;
+    margin-top: 10px;
+    color: #999 !important;
+    font-weight: 400 !important;
+}
+
+/* Add this to your existing style.css */
+
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 14px;
+    background-color: #FAFAFA;
+    outline: none;
+    color: #333;
+    appearance: none; /* Removes default system arrow for a cleaner look */
+    /* Custom arrow icon (optional, works in most modern browsers) */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23D32F2F%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 10px auto;
+}
+
+select:focus {
+    border-color: #D32F2F;
+}
