@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div id="userDetailsPanel" class="status-card" style="display: none; background: #fffbe6; border-left: 5px solid #ffe58f; margin-bottom: 20px;">
+        <div id="userDetailsPanel" class="status-card" style="display: none; background: #fffbe6; border-left: 5px solid #ffe58f; margin-bottom: 20px; animation: slideUpFade 0.4s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
                 <h3><i class="fa-solid fa-id-card"></i> Profile Details</h3>
                 <button onclick="closeDetails()" style="background:none; border:none; font-size: 24px; cursor:pointer;">&times;</button>
@@ -36,7 +36,7 @@
                 <input type="text" id="adminSearchInput" placeholder="Search by email..." style="flex: 1; min-width: 280px; padding: 12px; border-radius: 8px; border: 1px solid #ddd;">
                 <div style="display: flex; gap: 10px; width: 100%; flex: 1;">
                     <button id="execSearchBtn" class="btn-login" style="margin: 0; flex: 1;">Find</button>
-                    <button id="clearSearchBtn" class="btn-logout" style="margin: 0; flex: 1; background: #6c757d;">Reset</button>
+                    <button id="clearSearchBtn" class="btn-logout" style="margin: 0; flex: 1; background: #6c757d; color:white;">Reset</button>
                 </div>
             </div>
         </div>
@@ -80,7 +80,4 @@
     
         <script type="module" src="manage_users.js"></script>
     </body>
-    </html>
-
-</body>
 </html>
