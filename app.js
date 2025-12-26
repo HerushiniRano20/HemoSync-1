@@ -61,7 +61,7 @@ loginForm.addEventListener('submit', async (e) => {
                 alert("Hospital Dashboard coming soon!");
             }
             else if (role === 'admin') {
-                alert("Admin Dashboard coming soon!");
+                window.location.href = "organiser_dashboard.html";
             } 
             else {
                 alert("Error: Role '" + role + "' is not recognized.");
