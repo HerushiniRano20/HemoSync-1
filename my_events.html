@@ -10,19 +10,23 @@
 </head>
 <body>
 
-    <div class="app-container">
+    <div class="app-container" style="animation: slideUpFade 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);">
         
         <div class="login-header">
             <h1>My Published Events</h1>
             <p>Manage your upcoming blood drives.</p>
         </div>
 
-        <div id="loadingMessage" style="text-align: center; color: #888;">Loading events...</div>
+        <div id="loadingMessage" style="text-align: center; color: #888; animation: pulse 1.5s infinite;">
+            <i class="fa-solid fa-spinner fa-spin"></i> Loading events...
+        </div>
         
         <div id="eventsList" class="events-container">
-            </div>
+        </div>
 
-        <button class="btn-logout" style="margin-top: 20px;" onclick="window.location.href='organiser_dashboard.html'">Back to Dashboard</button>
+        <button class="btn-logout" style="margin-top: 20px;" onclick="window.location.href='organiser_dashboard.html'">
+            Back to Dashboard
+        </button>
     </div>
 
     <script type="module" src="my_events.js"></script>

@@ -23,13 +23,16 @@ let targetUserIdForSuspension = null;
 
 // --- Functions ---
 
-function renderUserRow(docSnap) {
+function renderUserRow(docSnap, index = 0) {
     const user = docSnap.data();
     const status = user.status || "Active";
     const statusColor = status === "Suspended" ? "#e74c3c" : "#2ecc71";
+    
+    // Calculate staggered delay based on index
+    const delay = index * 0.1; 
 
     return `
-        <tr style="border-bottom: 1px solid #eee;">
+        <tr style="border-bottom: 1px solid #eee; animation-delay: ${delay}s;">
             <td style="padding: 15px;">
                 <div style="font-weight:600; color:#222;">${user.fullname}</div>
                 <div style="font-size:12px; color:#666;">${user.email}</div>
@@ -44,7 +47,7 @@ function renderUserRow(docSnap) {
                 <button class="btn-login" style="padding: 6px 12px; font-size: 11px; margin:0;" onclick="viewUser('${docSnap.id}')">
                     <i class="fa-solid fa-eye"></i> View
                 </button>
-                <button class="btn-logout" style="padding: 6px 12px; font-size: 11px; margin:0; background-color:#e74c3c;" 
+                <button class="btn-logout" style="padding: 6px 12px; font-size: 11px; margin:0; background-color:#e74c3c; color:white;" 
                         onclick="confirmSuspension('${docSnap.id}', '${user.email}')">
                     <i class="fa-solid fa-user-slash"></i> Suspend
                 </button>
@@ -64,7 +67,14 @@ async function loadUsers(emailSearch = null) {
             tableBody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding: 20px;'>No matching accounts found.</td></tr>";
             return;
         }
-        querySnapshot.forEach((docSnap) => { tableBody.innerHTML += renderUserRow(docSnap); });
+        
+        // Updated loop to pass index for animation delay
+        let index = 0;
+        querySnapshot.forEach((docSnap) => { 
+            tableBody.innerHTML += renderUserRow(docSnap, index); 
+            index++;
+        });
+        
     } catch (error) { console.error("Load Error:", error); }
 }
 
@@ -115,7 +125,7 @@ window.viewUser = async (userId) => {
 
             detailContent.innerHTML = detailsHTML;
             detailPanel.style.display = "block";
-            window.scrollTo({ top: 0, behavior: 'smooth' }); //
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
     } catch (e) { console.error("View Error:", e); }
 };

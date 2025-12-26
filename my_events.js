@@ -40,19 +40,28 @@ async function loadOrganiserEvents(uid) {
         loadingMsg.style.display = "none"; // Hide loading text
 
         if (querySnapshot.empty) {
-            eventsList.innerHTML = "<p style='text-align:center'>No events found. Go create one!</p>";
+            eventsList.innerHTML = `
+                <div style="text-align:center; padding: 20px; animation: fadeIn 0.5s;">
+                    <i class="fa-regular fa-calendar-xmark" style="font-size: 40px; color: #ddd; margin-bottom: 10px;"></i>
+                    <p style="color: #666;">No events found.</p>
+                    <button class="btn-login" style="margin-top:10px; font-size: 12px; padding: 10px 20px;" onclick="window.location.href='create_event.html'">Create One</button>
+                </div>`;
             return;
         }
 
         // Loop through each event found in the database
+        let index = 0;
         querySnapshot.forEach((doc) => {
             const event = doc.data();
             const eventId = doc.id; // We need this ID to edit/manage later
-
+            
+            // ANIMATION LOGIC: Calculate delay based on index (0s, 0.1s, 0.2s...)
+            const delay = index * 0.1;
+            
             // Create HTML card for the event
-            // Note: We use template literals (``) to make the HTML easy to read
             const eventCard = `
-                <div class="status-card" style="display:block; margin-bottom: 15px; border-left: 5px solid #D32F2F;">
+                <div class="status-card" style="display:block; margin-bottom: 15px; border-left: 5px solid #D32F2F; 
+                     opacity: 0; animation: fadeInUp 0.5s ease forwards; animation-delay: ${delay}s; transition: transform 0.2s;">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <h3 style="color: #333; margin-bottom: 5px;">${event.venue}</h3>
@@ -69,7 +78,7 @@ async function loadOrganiserEvents(uid) {
                                 ${event.status}
                             </span>
                             <br><br>
-                            <button onclick="alert('Manage Event ID: ${eventId}')" style="background:none; border:none; color:#D32F2F; cursor:pointer;">
+                            <button onclick="alert('Manage Event ID: ${eventId}')" style="background:none; border:none; color:#D32F2F; cursor:pointer; font-size: 16px; transition: transform 0.2s;">
                                 <i class="fa-solid fa-chevron-right"></i>
                             </button>
                         </div>
@@ -79,10 +88,11 @@ async function loadOrganiserEvents(uid) {
 
             // Add the new card to the list
             eventsList.innerHTML += eventCard;
+            index++; // Increment index for next card's delay
         });
 
     } catch (error) {
         console.error("Error loading events:", error);
-        loadingMsg.textContent = "Error loading data.";
+        loadingMsg.innerHTML = `<span style="color:red">Error loading data. Check console.</span>`;
     }
 }

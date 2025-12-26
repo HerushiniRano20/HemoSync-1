@@ -1,6 +1,6 @@
 // Import the functions we need from Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 // TODO: Paste your firebaseConfig here
@@ -31,7 +31,9 @@ loginForm.addEventListener('submit', async (e) => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    errorMsg.textContent = "Logging in...";
+    // Visual feedback while loading
+    errorMsg.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Verifying credentials...';
+    errorMsg.style.color = "#666";
 
     try {
         // 1. Check Credentials (Authentication)
@@ -44,42 +46,83 @@ loginForm.addEventListener('submit', async (e) => {
 
         if (docSnap.exists()) {
             const userData = docSnap.data();
-            const role = userData.role; // This will be "donor", "organiser", etc.
+            
+            // ---------------------------------------------------------
+            // SUSPENSION CHECK LOGIC
+            // ---------------------------------------------------------
+            if (userData.status === "Suspended") {
+                // IMPORTANT: Sign out immediately so they don't stay logged in
+                await signOut(auth);
+
+                // Show detailed error message with animation
+                errorMsg.style.color = "#e74c3c"; // Red color
+                errorMsg.innerHTML = `
+                    <div style="animation: shake 0.5s;">
+                        <strong><i class="fa-solid fa-ban"></i> Access Denied</strong><br>
+                        <span style="font-size: 11px;">Your account has been suspended.</span><br>
+                        <span style="font-size: 11px; color: #555; background: #ffe6e6; padding: 2px 5px; border-radius: 4px;">
+                            Reason: ${userData.suspensionReason || "Violation of terms"}
+                        </span>
+                    </div>
+                `;
+                return; // STOP EXECUTION HERE (Do not redirect)
+            }
+            // ---------------------------------------------------------
+
+            const role = userData.role; 
 
             // Success Message
-            alert("Login Success!\nUser: " + userData.fullname + "\nRole: " + role);
+            errorMsg.style.color = "green";
+            errorMsg.textContent = "Login successful! Redirecting...";
 
-            // 3. REDIRECT LOGIC (This is the part that was missing)
-            if (role === 'donor') {
-                window.location.href = "donor_home.html";
-            } 
-            else if (role === 'organiser') {  
-                // <--- This is the new line that fixes your problem
-                window.location.href = "organiser_dashboard.html";
-            } 
-            else if (role === 'medical') {
-                alert("Hospital Dashboard coming soon!");
-            }
-            else if (role === 'admin') {
-                window.location.href = "admin_dashboard.html";
-            } 
-            else {
-                alert("Error: Role '" + role + "' is not recognized.");
-            }
+            // 3. REDIRECT LOGIC 
+            setTimeout(() => {
+                if (role === 'donor') {
+                    window.location.href = "donor_home.html";
+                } 
+                else if (role === 'organiser') {  
+                    window.location.href = "organiser_dashboard.html";
+                } 
+                else if (role === 'medical') {
+                    alert("Hospital Dashboard coming soon!");
+                }
+                else if (role === 'admin') {
+                    window.location.href = "admin_dashboard.html";
+                } 
+                else {
+                    alert("Error: Role '" + role + "' is not recognized.");
+                }
+            }, 800); // Small delay for UX
 
         } else {
             errorMsg.textContent = "Error: User data not found in database.";
+            await signOut(auth); // Sign out if data is corrupt/missing
         }
 
     } catch (error) {
         console.error("Login Error:", error.code);
         
+        errorMsg.style.color = "red";
         if(error.code === 'auth/user-not-found') {
             errorMsg.textContent = "Account not found. Please Sign Up.";
         } else if (error.code === 'auth/wrong-password') {
             errorMsg.textContent = "Incorrect password.";
+        } else if (error.code === 'auth/too-many-requests') {
+             errorMsg.textContent = "Too many failed attempts. Try again later.";
         } else {
             errorMsg.textContent = "Login failed: " + error.message;
         }
     }
 });
+
+// Add shake animation style dynamically
+const styleSheet = document.createElement("style");
+styleSheet.innerText = `
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}`;
+document.head.appendChild(styleSheet);
